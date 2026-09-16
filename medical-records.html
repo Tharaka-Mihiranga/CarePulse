@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarePulse Health Management System</title>
+    <meta name="description" content="A unified healthcare platform connecting patient portals, appointment booking, medical records, electronic prescriptions, billing payments, and clinical administration." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23005a9c'><path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/></svg>" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#f4f6f8] text-slate-800 flex flex-col min-h-screen">
+    
+    <!-- Top Navigation Container -->
+    <div id="carepulse-header"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+      
+      <!-- Patient Banner -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div id="patient-avatar" class="w-14 h-14 rounded-2xl bg-[#005a9c] text-white flex items-center justify-center text-xl font-bold shadow-xs">
+            EV
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 id="patient-name" class="text-xl font-bold text-slate-900">Eleanor Vance</h1>
+              <span id="patient-mrn" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-[#005a9c] border border-blue-200">
+                MRN-84920
+              </span>
+            </div>
+            <div class="text-xs text-slate-500 mt-1 flex flex-wrap gap-x-4 gap-y-1">
+              <span>Blood Group: <strong id="patient-blood" class="text-slate-800">O Positive</strong></span>
+              <span>Known Allergies: <strong id="patient-allergies" class="text-rose-600">Penicillin, Sulfa Drugs</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="btn-print-record" class="px-3.5 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-2 transition">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+            <span>Print Clinical Record</span>
+          </button>
+          <button id="btn-add-note" class="px-4 py-2 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition shadow-xs">
+            <span>+ Add Clinical Note</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Two Columns Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: SOAP Encounter Notes (8 cols) -->
+        <div class="lg:col-span-8 space-y-6">
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs p-6 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+              <h2 class="font-bold text-slate-900 text-base">Encounter Clinical Notes (SOAP)</h2>
+              <span class="text-xs text-slate-400 font-mono">HIPAA Encrypted EHR</span>
+            </div>
+
+            <div id="soap-notes-container" class="space-y-6">
+              <!-- Rendered via medical-records.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Scans & Diagnostics (4 cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          
+          <!-- Chest X-Ray DICOM viewer -->
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs p-5 space-y-4">
+            <h3 class="font-bold text-slate-900 text-sm">Diagnostic Imaging (DICOM)</h3>
+            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 text-center space-y-3">
+              <div class="w-full h-32 bg-slate-900 rounded-lg flex flex-col items-center justify-center text-slate-300 relative overflow-hidden">
+                <span class="text-xs font-mono text-cyan-400">CHEST X-RAY PA/LATERAL</span>
+                <span class="text-[10px] text-slate-400">Resolution: 3000 x 3000 DICOM</span>
+              </div>
+              <div class="text-left">
+                <div class="font-bold text-slate-900 text-xs">Chest PA/LAT Radiograph</div>
+                <div class="text-[11px] text-slate-500">Normal cardiac silhouette. No focal infiltrates.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lab Reports Container -->
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs p-5 space-y-4">
+            <h3 class="font-bold text-slate-900 text-sm">Verified Diagnostic Lab Panels</h3>
+            <div id="lab-reports-list" class="space-y-3">
+              <!-- Rendered via medical-records.js -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+    <script type="module" src="/src/pages/medical-records.js"></script>
+  </body>
+</html>

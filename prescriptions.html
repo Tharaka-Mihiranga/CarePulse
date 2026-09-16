@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarePulse Health Management System</title>
+    <meta name="description" content="A unified healthcare platform connecting patient portals, appointment booking, medical records, electronic prescriptions, billing payments, and clinical administration." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23005a9c'><path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/></svg>" />
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body class="bg-[#f4f6f8] text-slate-800 flex flex-col min-h-screen">
+    
+    <!-- Top Navigation Container -->
+    <div id="carepulse-header"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+      
+      <!-- Header -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Pharmacy & Electronic Prescriptions</h1>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              E-Prescribing Gateway
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Review verified medications, schedule pharmacy refills, and view dosage directions.</p>
+        </div>
+
+        <div class="text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          Default Pharmacy: <span class="font-bold text-slate-800">CVS Pharmacy #4821</span>
+        </div>
+      </div>
+
+      <!-- Prescriptions Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+          <h2 class="font-bold text-slate-900 text-sm sm:text-base">Documented Regimens</h2>
+          <span id="rx-count" class="text-xs text-slate-500">Loading...</span>
+        </div>
+
+        <div id="prescriptions-table" class="divide-y divide-slate-100">
+          <!-- Rendered by prescriptions.js -->
+        </div>
+      </div>
+
+    </main>
+
+    <script type="module" src="/src/pages/prescriptions.js"></script>
+  </body>
+</html>
