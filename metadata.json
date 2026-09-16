@@ -1,0 +1,6 @@
+{
+  "name": "CarePulse Health Management System",
+  "description": "A unified healthcare platform connecting patient portals, appointment booking, medical records, electronic prescriptions, billing payments, and clinical administration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
