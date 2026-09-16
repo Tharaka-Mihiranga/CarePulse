@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./src/index.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* CarePulse Embedded Patient Dashboard Styles */
       :root {
         --cp-primary: #005a9c;
         --cp-primary-hover: #00467a;
@@ -24,98 +23,129 @@
       html {
         scroll-behavior: smooth;
       }
-      /* Protect icons from ever blowing up */
-      svg {
-        max-width: 100%;
-      }
+      svg { max-width: 100%; }
       svg.w-3 { width: 12px !important; height: 12px !important; }
+      svg.w-3\.5 { width: 14px !important; height: 14px !important; }
       svg.w-4 { width: 16px !important; height: 16px !important; }
       svg.w-5 { width: 20px !important; height: 20px !important; }
       svg.w-6 { width: 24px !important; height: 24px !important; }
-      svg.w-8 { width: 32px !important; height: 32px !important; }
     </style>
   </head>
   <body class="bg-[#f4f6f8] text-slate-800 flex flex-col min-h-screen">
     
-    <!-- Top Navigation Container -->
+    <!-- Top Navigation Container (Universal Header with 6 Persistent Nav Tabs) -->
     <div id="carepulse-header"></div>
 
     <!-- Main Dashboard Body -->
     <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
       
+      <!-- Hospital Operational Advisory Alert (Dismissible) -->
+      <div id="dashboard-alert-banner" class="hidden bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-4 shadow-2xs flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="alert-title" class="font-bold text-slate-900 text-xs sm:text-sm">CarePulse Operational Advisory</span>
+              <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.2 rounded-full font-bold">Live Notice</span>
+            </div>
+            <p id="alert-message" class="text-xs text-slate-600 mt-0.5">Seasonal clinics open until 9:00 PM today.</p>
+          </div>
+        </div>
+        <button id="btn-dismiss-alert" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-bold">&times;</button>
+      </div>
+
       <!-- Welcome Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs">
         <div>
           <div class="flex items-center gap-2">
             <h1 id="user-welcome-name" class="text-xl sm:text-2xl font-bold text-slate-900">Welcome back, Eleanor Vance</h1>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span id="user-role-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               Active Member
             </span>
           </div>
           <p class="text-xs text-slate-500 mt-1">
-            MRN: <span id="user-mrn" class="font-mono text-slate-700">MRN-84920</span> • Primary Care: <span id="user-doctor" class="font-medium text-slate-700">Dr. Sarah Jenkins, MD</span>
+            MRN: <span id="user-mrn" class="font-mono text-slate-700 font-semibold">MRN-84920</span> • Primary Care: <span id="user-doctor" class="font-medium text-slate-700">Dr. Sarah Jenkins, MD</span>
           </p>
         </div>
 
-        <div class="flex items-center gap-2">
-          <a href="./appointments.html" class="px-4 py-2 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition shadow-xs">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-            <span>Book Appointment</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="btn-open-vitals-modal" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition border border-slate-200">
+            <svg class="w-3.5 h-3.5 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            <span>Log Vitals</span>
+          </button>
+          <a href="./appointments.html" class="px-4 py-2 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-xs">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <span>Book Visit</span>
           </a>
-          <a href="./prescriptions.html" class="px-3.5 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-2 transition">
-            <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
-            <span>Refill Rx</span>
+          <a href="./prescriptions.html" class="px-3.5 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition bg-white">
+            <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+            <span>Pharmacy Rx</span>
           </a>
         </div>
       </div>
 
-      <!-- Quick Vitals Cards (4 Columns) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Heart Rate -->
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs flex items-center justify-between">
-          <div>
-            <div class="text-xs font-medium text-slate-500 mb-1">Heart Rate</div>
-            <div class="text-2xl font-bold text-slate-900"><span id="vital-hr">72</span> <span class="text-sm font-normal text-slate-500">bpm</span></div>
-            <div class="text-xs text-emerald-600 font-medium mt-1">Normal resting rhythm</div>
+      <!-- Quick Vitals Cards (Interactive click to edit) -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <div class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>Recorded Baseline Vitals</span>
+            <span id="vitals-timestamp" class="text-[10px] text-slate-400 font-normal lowercase">(updated today)</span>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-          </div>
+          <button id="btn-quick-edit-vitals" class="text-xs text-[#005a9c] hover:underline font-semibold flex items-center gap-1">
+            <span>Edit Metrics</span> &rarr;
+          </button>
         </div>
 
-        <!-- Blood Pressure -->
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs flex items-center justify-between">
-          <div>
-            <div class="text-xs font-medium text-slate-500 mb-1">Blood Pressure</div>
-            <div class="text-2xl font-bold text-slate-900"><span id="vital-bp">120/80</span> <span class="text-sm font-normal text-slate-500">mmHg</span></div>
-            <div class="text-xs text-emerald-600 font-medium mt-1">Optimal baseline</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Heart Rate -->
+          <div class="vitals-card bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-5 shadow-2xs flex items-center justify-between cursor-pointer transition" data-vital-target="heartRate">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">Heart Rate</div>
+              <div class="text-2xl font-bold text-slate-900"><span id="vital-hr">72</span> <span class="text-sm font-normal text-slate-500">bpm</span></div>
+              <div id="vital-hr-status" class="text-xs text-emerald-600 font-medium mt-1">Normal resting rhythm</div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          </div>
-        </div>
 
-        <!-- Blood Sugar -->
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs flex items-center justify-between">
-          <div>
-            <div class="text-xs font-medium text-slate-500 mb-1">Blood Sugar</div>
-            <div class="text-2xl font-bold text-slate-900"><span id="vital-bs">95</span> <span class="text-sm font-normal text-slate-500">mg/dL</span></div>
-            <div class="text-xs text-emerald-600 font-medium mt-1">Fasting normal range</div>
+          <!-- Blood Pressure -->
+          <div class="vitals-card bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-5 shadow-2xs flex items-center justify-between cursor-pointer transition" data-vital-target="bp">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">Blood Pressure</div>
+              <div class="text-2xl font-bold text-slate-900"><span id="vital-bp">120/80</span> <span class="text-sm font-normal text-slate-500">mmHg</span></div>
+              <div id="vital-bp-status" class="text-xs text-emerald-600 font-medium mt-1">Optimal baseline</div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
-          </div>
-        </div>
 
-        <!-- Weight -->
-        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-2xs flex items-center justify-between">
-          <div>
-            <div class="text-xs font-medium text-slate-500 mb-1">Body Weight</div>
-            <div class="text-2xl font-bold text-slate-900"><span id="vital-weight">68</span> <span class="text-sm font-normal text-slate-500">kg</span></div>
-            <div class="text-xs text-slate-500 font-medium mt-1">BMI 22.4 (Normal)</div>
+          <!-- Blood Sugar -->
+          <div class="vitals-card bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-5 shadow-2xs flex items-center justify-between cursor-pointer transition" data-vital-target="bloodSugar">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">Fasting Glucose</div>
+              <div class="text-2xl font-bold text-slate-900"><span id="vital-bs">95</span> <span class="text-sm font-normal text-slate-500">mg/dL</span></div>
+              <div id="vital-bs-status" class="text-xs text-emerald-600 font-medium mt-1">Fasting normal range</div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
+            </div>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+
+          <!-- Weight & BMI -->
+          <div class="vitals-card bg-white border border-slate-200 hover:border-blue-300 rounded-xl p-5 shadow-2xs flex items-center justify-between cursor-pointer transition" data-vital-target="weight">
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-1">Body Weight</div>
+              <div class="text-2xl font-bold text-slate-900"><span id="vital-weight">68</span> <span class="text-sm font-normal text-slate-500">kg</span></div>
+              <div id="vital-bmi-status" class="text-xs text-slate-600 font-medium mt-1">BMI 22.4 (Normal)</div>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+            </div>
           </div>
         </div>
       </div>
@@ -129,9 +159,17 @@
           <!-- Upcoming Appointments -->
           <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-              <h2 class="font-bold text-slate-900 text-sm sm:text-base">Upcoming Appointments</h2>
-              <a href="./appointments.html" class="text-xs text-[#005a9c] hover:underline font-semibold">
-                + Schedule New Visit
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#005a9c] flex items-center justify-center">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                </div>
+                <div>
+                  <h2 class="font-bold text-slate-900 text-sm sm:text-base">Upcoming Appointments</h2>
+                  <p class="text-[11px] text-slate-400">Scheduled visits, video consults & copays</p>
+                </div>
+              </div>
+              <a href="./appointments.html" class="text-xs bg-blue-50 hover:bg-blue-100 text-[#005a9c] px-3 py-1.5 rounded-lg font-semibold transition">
+                + Schedule Visit
               </a>
             </div>
             <div id="dashboard-appointments-list" class="divide-y divide-slate-100">
@@ -142,9 +180,17 @@
           <!-- Active Prescriptions -->
           <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-              <h2 class="font-bold text-slate-900 text-sm sm:text-base">Active Prescriptions</h2>
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+                </div>
+                <div>
+                  <h2 class="font-bold text-slate-900 text-sm sm:text-base">Active Prescriptions & Regimens</h2>
+                  <p class="text-[11px] text-slate-400">Pharmacy pickup & instant electronic refills</p>
+                </div>
+              </div>
               <a href="./prescriptions.html" class="text-xs text-[#005a9c] hover:underline font-semibold">
-                Manage Pharmacy & Refills →
+                Manage All Rx &rarr;
               </a>
             </div>
             <div id="dashboard-prescriptions-list" class="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -160,7 +206,15 @@
           <!-- Recent Lab Results -->
           <div class="bg-white border border-slate-200 rounded-2xl shadow-2xs overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-              <h2 class="font-bold text-slate-900 text-sm sm:text-base">Recent Lab Results</h2>
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5h0c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/></svg>
+                </div>
+                <div>
+                  <h2 class="font-bold text-slate-900 text-sm">Recent Lab Results</h2>
+                  <p class="text-[11px] text-slate-400">Signed diagnostic panels</p>
+                </div>
+              </div>
               <a href="./medical-records.html" class="text-xs text-[#005a9c] hover:underline font-semibold">
                 View All
               </a>
@@ -171,24 +225,31 @@
           </div>
 
           <!-- Quick Navigation Banner -->
-          <div class="bg-gradient-to-br from-slate-900 to-[#005a9c] text-white rounded-2xl p-5 shadow-2xs space-y-4">
+          <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-[#005a9c] text-white rounded-2xl p-5 shadow-2xs space-y-4">
             <div>
-              <div class="text-xs uppercase font-bold text-blue-300 tracking-wider">Quick Actions</div>
-              <h3 class="text-base font-bold text-white mt-1">Need Clinical Care?</h3>
-              <p class="text-xs text-blue-100/80 mt-1">Access immediate healthcare services across our unified platform.</p>
+              <div class="text-[10px] uppercase font-bold text-blue-300 tracking-wider">Quick Actions</div>
+              <h3 class="text-base font-bold text-white mt-1">CarePulse Navigation Hub</h3>
+              <p class="text-xs text-blue-100/80 mt-1">Jump directly to any clinical module in one click:</p>
             </div>
 
-            <div class="space-y-2 pt-1">
-              <a href="./appointments.html" class="block w-full py-2 px-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition">
-                Schedule Virtual or Office Visit →
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <a href="./appointments.html" class="p-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition text-center flex flex-col items-center gap-1">
+                <span>📅 Book Visit</span>
               </a>
-              <a href="./billing.html" class="block w-full py-2 px-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition">
-                Review Statements & Pay Bills →
+              <a href="./medical-records.html" class="p-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition text-center flex flex-col items-center gap-1">
+                <span>📋 EHR Records</span>
               </a>
-              <a href="./medical-records.html" class="block w-full py-2 px-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition">
-                Download Health Summary PDF →
+              <a href="./prescriptions.html" class="p-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition text-center flex flex-col items-center gap-1">
+                <span>💊 Pharmacy Rx</span>
+              </a>
+              <a href="./billing.html" class="p-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold transition text-center flex flex-col items-center gap-1">
+                <span>💳 Billing</span>
               </a>
             </div>
+
+            <a href="./admin.html" class="block w-full text-center py-2 px-3 bg-white/20 hover:bg-white/30 border border-white/30 rounded-xl text-xs font-bold transition">
+              🏢 Open AdminCore Console &rarr;
+            </a>
           </div>
 
         </div>
@@ -197,6 +258,89 @@
 
     </main>
 
-    <script type="module" src="/src/pages/dashboard.js"></script>
+    <!-- Interactive Vitals Logger Modal -->
+    <div id="vitals-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm sm:text-base">Record Patient Vitals</h3>
+              <p class="text-[11px] text-slate-400">Updates EHR biometric telemetry</p>
+            </div>
+          </div>
+          <button id="btn-close-vitals-modal" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+        </div>
+
+        <form id="vitals-form" class="space-y-3 text-xs">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Heart Rate (bpm)</label>
+              <input type="number" id="input-vital-hr" min="40" max="200" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Fasting Blood Sugar (mg/dL)</label>
+              <input type="number" id="input-vital-bs" min="50" max="400" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Systolic BP (mmHg)</label>
+              <input type="number" id="input-vital-systolic" min="80" max="220" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Diastolic BP (mmHg)</label>
+              <input type="number" id="input-vital-diastolic" min="40" max="140" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Body Weight (kg)</label>
+              <input type="number" id="input-vital-weight" min="30" max="250" step="0.5" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Oxygen Saturation (%)</label>
+              <input type="number" id="input-vital-o2" min="80" max="100" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button type="button" id="btn-cancel-vitals" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold">Cancel</button>
+            <button type="submit" class="px-4 py-2 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl font-semibold">Save Vitals</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Interactive Diagnostic Lab Report Modal -->
+    <div id="diagnostic-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span class="text-[10px] font-bold text-blue-700 uppercase tracking-wider">Clinical Diagnostic Panel</span>
+            <h3 id="modal-lab-title" class="font-bold text-slate-900 text-base">Complete Blood Count (CBC)</h3>
+            <p id="modal-lab-meta" class="text-xs text-slate-500">Ordered by Dr. Sarah Jenkins • Verified Oct 15, 2026</p>
+          </div>
+          <button id="btn-close-diagnostic-modal" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+        </div>
+
+        <div id="modal-lab-body" class="space-y-4 text-xs">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+          <span class="text-[11px] text-slate-400">Electronic Physician Signature: Validated MD-83921</span>
+          <button id="btn-print-lab" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold text-xs flex items-center gap-1.5">
+            <span>Print Report</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./src/pages/dashboard.js"></script>
   </body>
 </html>

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./src/index.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* CarePulse Embedded Prescriptions Styles */
       :root {
         --cp-primary: #005a9c;
         --cp-bg: #f4f6f8;
@@ -21,42 +20,119 @@
       }
       svg { max-width: 100%; }
       svg.w-3 { width: 12px !important; height: 12px !important; }
+      svg.w-3\.5 { width: 14px !important; height: 14px !important; }
       svg.w-4 { width: 16px !important; height: 16px !important; }
       svg.w-5 { width: 20px !important; height: 20px !important; }
       svg.w-6 { width: 24px !important; height: 24px !important; }
-      svg.w-8 { width: 32px !important; height: 32px !important; }
     </style>
   </head>
   <body class="bg-[#f4f6f8] text-slate-800 flex flex-col min-h-screen">
     
-    <!-- Top Navigation Container -->
+    <!-- Top Navigation Container (Universal Header with 6 Persistent Nav Tabs) -->
     <div id="carepulse-header"></div>
 
     <!-- Main Content -->
     <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
       
-      <!-- Header -->
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <!-- Header with Preferred Pharmacy & Actions -->
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Pharmacy & Electronic Prescriptions</h1>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              E-Prescribing Gateway
+              Surescripts E-Prescribing
             </span>
           </div>
-          <p class="text-xs text-slate-500 mt-1">Review verified medications, schedule pharmacy refills, and view dosage directions.</p>
+          <p class="text-xs text-slate-500 mt-1">Review verified medications, schedule pharmacy refills, and view daily intake schedule.</p>
         </div>
 
-        <div class="text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-          Default Pharmacy: <span class="font-bold text-slate-800">CVS Pharmacy #4821</span>
+        <div class="flex flex-wrap items-center gap-2">
+          <!-- Preferred Pharmacy Pill with Edit Modal Trigger -->
+          <button id="btn-change-pharmacy" class="text-xs bg-slate-50 hover:bg-slate-100 p-2.5 rounded-xl border border-slate-200 flex items-center gap-2 transition text-left">
+            <svg class="w-4 h-4 text-[#005a9c]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <div class="text-[10px] text-slate-400 font-semibold">Preferred Pharmacy (Click to change)</div>
+              <div id="current-pharmacy-label" class="font-bold text-slate-800 text-xs truncate max-w-[200px]">CVS Pharmacy #4821</div>
+            </div>
+          </button>
+
+          <button id="btn-add-medication" class="px-4 py-2.5 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl text-xs font-semibold flex items-center gap-1.5 transition shadow-xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Add Medication</span>
+          </button>
         </div>
       </div>
 
-      <!-- Prescriptions Table -->
+      <!-- Interactive Daily Pill-Box & Adherence Tracker -->
+      <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-2xl p-6 shadow-2xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] uppercase font-bold text-cyan-300 tracking-wider">Daily Regimen Tracker</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <h2 class="text-base font-bold mt-0.5">Today's Medication Schedule & Adherence</h2>
+          </div>
+          <div class="text-xs text-blue-200 font-semibold">
+            Adherence Rate: <span class="text-emerald-400 font-bold" id="adherence-percent">100% On Track</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1" id="daily-doses-grid">
+          <!-- Morning Dose -->
+          <div class="p-3.5 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl flex items-center justify-between transition cursor-pointer" id="dose-card-morning">
+            <div>
+              <div class="text-xs font-bold text-cyan-200">Morning Dose (08:00 AM)</div>
+              <div class="text-xs text-white font-semibold mt-0.5">Lisinopril 20mg • Metformin 500mg</div>
+              <div class="text-[10px] text-blue-200 mt-1" id="morning-status">Status: Taken at 08:15 AM</div>
+            </div>
+            <input type="checkbox" id="check-dose-morning" checked class="w-5 h-5 rounded text-[#005a9c] focus:ring-0 cursor-pointer" />
+          </div>
+
+          <!-- Afternoon Dose -->
+          <div class="p-3.5 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl flex items-center justify-between transition cursor-pointer" id="dose-card-afternoon">
+            <div>
+              <div class="text-xs font-bold text-cyan-200">Mid-Day Dose (01:00 PM)</div>
+              <div class="text-xs text-white font-semibold mt-0.5">Multivitamin Mineral Complex</div>
+              <div class="text-[10px] text-blue-200 mt-1" id="afternoon-status">Status: Pending</div>
+            </div>
+            <input type="checkbox" id="check-dose-afternoon" class="w-5 h-5 rounded text-[#005a9c] focus:ring-0 cursor-pointer" />
+          </div>
+
+          <!-- Evening Dose -->
+          <div class="p-3.5 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl flex items-center justify-between transition cursor-pointer" id="dose-card-evening">
+            <div>
+              <div class="text-xs font-bold text-cyan-200">Evening Dose (08:00 PM)</div>
+              <div class="text-xs text-white font-semibold mt-0.5">Atorvastatin 20mg (with dinner)</div>
+              <div class="text-[10px] text-blue-200 mt-1" id="evening-status">Status: Pending</div>
+            </div>
+            <input type="checkbox" id="check-dose-evening" class="w-5 h-5 rounded text-[#005a9c] focus:ring-0 cursor-pointer" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Prescriptions Section with Search & Filter -->
       <div class="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
-        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-          <h2 class="font-bold text-slate-900 text-sm sm:text-base">Documented Regimens</h2>
-          <span id="rx-count" class="text-xs text-slate-500">Loading...</span>
+        <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="font-bold text-slate-900 text-sm sm:text-base">Documented Prescriptions & Regimens</h2>
+            <span id="rx-count" class="text-xs text-slate-500">Loading medications...</span>
+          </div>
+
+          <!-- Filter & Search -->
+          <div class="flex items-center gap-2">
+            <select id="filter-rx-status" class="px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]">
+              <option value="All">All Statuses</option>
+              <option value="Active">Active Only</option>
+              <option value="Refill Needed">Needs Refill</option>
+            </select>
+            <input
+              type="text"
+              id="search-rx"
+              placeholder="Search medication name..."
+              class="px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]"
+            />
+          </div>
         </div>
 
         <div id="prescriptions-table" class="divide-y divide-slate-100">
@@ -66,6 +142,104 @@
 
     </main>
 
-    <script type="module" src="/src/pages/prescriptions.js"></script>
+    <!-- Modal: Change Preferred Pharmacy -->
+    <div id="pharmacy-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Select Preferred Pharmacy</h3>
+            <p class="text-xs text-slate-500">Electronic prescriptions will be transmitted here automatically.</p>
+          </div>
+          <button id="btn-close-pharmacy-modal" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+        </div>
+
+        <div class="space-y-2 text-xs" id="pharmacy-options-list">
+          <label class="p-3 border rounded-xl flex items-center justify-between cursor-pointer hover:bg-slate-50 transition border-blue-500 bg-blue-50/40">
+            <div>
+              <div class="font-bold text-slate-900">CVS Pharmacy #4821</div>
+              <div class="text-[11px] text-slate-500">742 Evergreen Terrace (Open 24/7)</div>
+            </div>
+            <input type="radio" name="pharmacyChoice" value="CVS Pharmacy #4821 - 742 Evergreen Terrace" checked class="text-[#005a9c]" />
+          </label>
+
+          <label class="p-3 border rounded-xl flex items-center justify-between cursor-pointer hover:bg-slate-50 transition border-slate-200">
+            <div>
+              <div class="font-bold text-slate-900">Walgreens Healthcare #1204</div>
+              <div class="text-[11px] text-slate-500">1200 Health Parkway (Drive-Thru Pharmacy)</div>
+            </div>
+            <input type="radio" name="pharmacyChoice" value="Walgreens Healthcare #1204 - 1200 Health Parkway" class="text-[#005a9c]" />
+          </label>
+
+          <label class="p-3 border rounded-xl flex items-center justify-between cursor-pointer hover:bg-slate-50 transition border-slate-200">
+            <div>
+              <div class="font-bold text-slate-900">Rite Aid Pharmacy #339</div>
+              <div class="text-[11px] text-slate-500">450 Medical Boulevard</div>
+            </div>
+            <input type="radio" name="pharmacyChoice" value="Rite Aid Pharmacy #339 - 450 Medical Boulevard" class="text-[#005a9c]" />
+          </label>
+
+          <label class="p-3 border rounded-xl flex items-center justify-between cursor-pointer hover:bg-slate-50 transition border-slate-200">
+            <div>
+              <div class="font-bold text-slate-900">CarePulse In-House Outpatient Pharmacy</div>
+              <div class="text-[11px] text-slate-500">Hospital Pavilion Ground Floor (15% Copay Discount)</div>
+            </div>
+            <input type="radio" name="pharmacyChoice" value="CarePulse Outpatient Pharmacy - Pavilion Ground Floor" class="text-[#005a9c]" />
+          </label>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" id="btn-cancel-pharmacy" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-xs">Cancel</button>
+          <button type="button" id="btn-save-pharmacy" class="px-4 py-2 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl font-semibold text-xs">Save Pharmacy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Add New Medication / OTC -->
+    <div id="add-med-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base">Add Medication / Supplement</h3>
+            <p class="text-xs text-slate-500">Log prescription or over-the-counter medicine</p>
+          </div>
+          <button id="btn-close-med-modal" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+        </div>
+
+        <form id="add-med-form" class="space-y-3 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Medication Name</label>
+            <input type="text" id="input-med-name" placeholder="e.g. Omeprazole" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Dosage</label>
+              <input type="text" id="input-med-dosage" placeholder="e.g. 20mg" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Frequency</label>
+              <input type="text" id="input-med-freq" placeholder="e.g. Once daily in AM" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Prescribing Doctor or OTC</label>
+            <input type="text" id="input-med-doctor" value="Dr. Sarah Jenkins, MD" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Special Instructions</label>
+            <input type="text" id="input-med-instructions" placeholder="e.g. Take 30 mins before first meal" required class="w-full px-3 py-2 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-[#005a9c]" />
+          </div>
+
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+            <button type="button" id="btn-cancel-med" class="px-4 py-2 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl font-semibold text-xs">Cancel</button>
+            <button type="submit" class="px-4 py-2 bg-[#005a9c] hover:bg-blue-700 text-white rounded-xl font-semibold text-xs">Add to EHR</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="./src/pages/prescriptions.js"></script>
   </body>
 </html>

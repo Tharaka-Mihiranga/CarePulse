@@ -324,6 +324,56 @@ export function getVitals() {
   return getStoredData('vitals', DEFAULT_VITALS);
 }
 
+export function saveVitals(vitals) {
+  setStoredData('vitals', vitals);
+}
+
 export function getLabReports() {
-  return DEFAULT_LAB_REPORTS;
+  return getStoredData('labReports', DEFAULT_LAB_REPORTS);
+}
+
+export function saveLabReports(reports) {
+  setStoredData('labReports', reports);
+}
+
+export function getClinicalNotes() {
+  return getStoredData('clinicalNotes', CLINICAL_NOTES);
+}
+
+export function saveClinicalNotes(notes) {
+  setStoredData('clinicalNotes', notes);
+}
+
+export function getEmergencyAlert() {
+  return getStoredData('emergencyAlert', {
+    active: true,
+    title: 'Hospital Operational Advisory',
+    message: 'Seasonal viral clinic hours extended until 9:00 PM. Same-day appointments available for rapid testing.',
+    severity: 'info',
+    timestamp: 'Updated today at 08:00 AM'
+  });
+}
+
+export function saveEmergencyAlert(alert) {
+  setStoredData('emergencyAlert', alert);
+}
+
+export function getPreferredPharmacy() {
+  return getStoredData('preferredPharmacy', 'CVS Pharmacy #4821 - 742 Evergreen Terrace');
+}
+
+export function savePreferredPharmacy(pharmacy) {
+  setStoredData('preferredPharmacy', pharmacy);
+}
+
+export function getMedicationDoses() {
+  return getStoredData('medicationDoses', {
+    morning: { taken: true, time: '08:15 AM' },
+    afternoon: { taken: false, time: null },
+    evening: { taken: false, time: null }
+  });
+}
+
+export function saveMedicationDoses(doses) {
+  setStoredData('medicationDoses', doses);
 }
