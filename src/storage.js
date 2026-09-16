@@ -1,4 +1,5 @@
 // CarePulse Health Portal - Persistent Clinical Data Store via localStorage
+import './index.css';
 
 export const DEFAULT_PROFILES = {
   patient: {
