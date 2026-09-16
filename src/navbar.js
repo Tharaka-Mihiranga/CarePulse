@@ -9,12 +9,12 @@ export function setupNavigation(activePageId) {
   const currentUser = getCurrentUser();
 
   const NAV_LINKS = [
-    { id: 'dashboard', label: 'Dashboard', href: '/index.html', iconName: 'dashboard' },
-    { id: 'appointments', label: 'Book Visit', href: '/appointments.html', iconName: 'calendar' },
-    { id: 'records', label: 'EHR Records', href: '/medical-records.html', iconName: 'file-text' },
-    { id: 'prescriptions', label: 'Pharmacy Rx', href: '/prescriptions.html', iconName: 'pill' },
-    { id: 'billing', label: 'Billing', href: '/billing.html', iconName: 'credit-card' },
-    { id: 'admin', label: 'AdminCore', href: '/admin.html', iconName: 'building' },
+    { id: 'dashboard', label: 'Dashboard', href: './index.html', iconName: 'dashboard' },
+    { id: 'appointments', label: 'Book Visit', href: './appointments.html', iconName: 'calendar' },
+    { id: 'records', label: 'EHR Records', href: './medical-records.html', iconName: 'file-text' },
+    { id: 'prescriptions', label: 'Pharmacy Rx', href: './prescriptions.html', iconName: 'pill' },
+    { id: 'billing', label: 'Billing', href: './billing.html', iconName: 'credit-card' },
+    { id: 'admin', label: 'AdminCore', href: './admin.html', iconName: 'building' },
   ];
 
   headerContainer.innerHTML = `
@@ -22,7 +22,7 @@ export function setupNavigation(activePageId) {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         
         <!-- Logo -->
-        <a href="/index.html" class="flex items-center gap-2.5 select-none group text-decoration-none">
+        <a href="./index.html" class="flex items-center gap-2.5 select-none group text-decoration-none">
           <div class="w-9 h-9 rounded-xl bg-[#005a9c] text-white flex items-center justify-center shadow-xs group-hover:bg-blue-700 transition">
             ${icon('heart-pulse', 'w-5 h-5')}
           </div>
@@ -77,11 +77,11 @@ export function setupNavigation(activePageId) {
                 <span class="text-[10px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-semibold">3 New</span>
               </div>
               <div class="space-y-2">
-                <a href="/prescriptions.html" class="block p-2.5 bg-slate-50 rounded-lg hover:bg-blue-50/50 transition">
+                <a href="./prescriptions.html" class="block p-2.5 bg-slate-50 rounded-lg hover:bg-blue-50/50 transition">
                   <div class="font-semibold text-slate-800">Prescription Refill Ready</div>
                   <div class="text-slate-500 text-[11px]">Amoxicillin 500mg verified at CVS #4821.</div>
                 </a>
-                <a href="/medical-records.html" class="block p-2.5 bg-slate-50 rounded-lg hover:bg-blue-50/50 transition">
+                <a href="./medical-records.html" class="block p-2.5 bg-slate-50 rounded-lg hover:bg-blue-50/50 transition">
                   <div class="font-semibold text-slate-800">Lab Results Signed</div>
                   <div class="text-slate-500 text-[11px]">Dr. Jenkins verified Complete Blood Count.</div>
                 </a>
@@ -128,7 +128,7 @@ export function setupNavigation(activePageId) {
               </div>
 
               <div class="pt-2 border-t border-slate-100">
-                <a href="/login.html" class="w-full text-left p-2 rounded-lg text-rose-600 hover:bg-rose-50 font-medium flex items-center gap-2">
+                <a href="./login.html" class="w-full text-left p-2 rounded-lg text-rose-600 hover:bg-rose-50 font-medium flex items-center gap-2">
                   ${icon('logout', 'w-3.5 h-3.5')}
                   <span>Sign Out / Persona Screen</span>
                 </a>
@@ -207,11 +207,11 @@ export function setupNavigation(activePageId) {
   searchForm?.addEventListener('submit', (e) => {
     e.preventDefault();
     const query = (document.getElementById('nav-search-input')?.value || '').toLowerCase();
-    if (query.includes('book') || query.includes('appoint')) window.location.href = '/appointments.html';
-    else if (query.includes('rx') || query.includes('prescri') || query.includes('pill')) window.location.href = '/prescriptions.html';
-    else if (query.includes('record') || query.includes('lab') || query.includes('soap')) window.location.href = '/medical-records.html';
-    else if (query.includes('pay') || query.includes('bill')) window.location.href = '/billing.html';
-    else if (query.includes('admin')) window.location.href = '/admin.html';
-    else window.location.href = '/index.html';
+    if (query.includes('book') || query.includes('appoint')) window.location.href = './appointments.html';
+    else if (query.includes('rx') || query.includes('prescri') || query.includes('pill')) window.location.href = './prescriptions.html';
+    else if (query.includes('record') || query.includes('lab') || query.includes('soap')) window.location.href = './medical-records.html';
+    else if (query.includes('pay') || query.includes('bill')) window.location.href = './billing.html';
+    else if (query.includes('admin')) window.location.href = './admin.html';
+    else window.location.href = './index.html';
   });
 }

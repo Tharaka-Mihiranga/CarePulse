@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
           ${!apt.paid ? `
-            <a href="/billing.html?service=${encodeURIComponent('Copay: ' + apt.doctorSpecialty)}&amount=50.00" class="px-3 py-1.5 bg-blue-50 text-[#005a9c] hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
+            <a href="./billing.html?service=${encodeURIComponent('Copay: ' + apt.doctorSpecialty)}&amount=50.00" class="px-3 py-1.5 bg-blue-50 text-[#005a9c] hover:bg-blue-100 rounded-lg text-xs font-semibold transition flex items-center gap-1.5">
               ${icon('credit-card', 'w-3.5 h-3.5')}
               <span>Pay ${apt.copay}</span>
             </a>
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
           <span class="text-xs font-bold text-slate-700">Copay: ${rx.copay}</span>
-          <a href="/prescriptions.html" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition">
+          <a href="./prescriptions.html" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition">
             Request Refill
           </a>
         </div>
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="font-semibold text-slate-900 text-xs">${lab.testName}</div>
           <div class="text-[11px] text-slate-500 mt-0.5">${lab.date} • ${lab.orderedBy}</div>
         </div>
-        <a href="/medical-records.html" class="p-2 text-slate-400 hover:text-[#005a9c] hover:bg-white rounded-lg transition border border-transparent hover:border-slate-200">
+        <a href="./medical-records.html" class="p-2 text-slate-400 hover:text-[#005a9c] hover:bg-white rounded-lg transition border border-transparent hover:border-slate-200">
           ${icon('eye', 'w-4 h-4')}
         </a>
       </div>

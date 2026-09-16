@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div>
           ${!apt.paid ? `
-            <a href="/billing.html?service=${encodeURIComponent('Copay: ' + apt.doctorName)}&amount=50.00" class="px-3 py-1.5 bg-[#005a9c] hover:bg-blue-700 text-white rounded-lg text-xs font-semibold inline-block">
+            <a href="./billing.html?service=${encodeURIComponent('Copay: ' + apt.doctorName)}&amount=50.00" class="px-3 py-1.5 bg-[#005a9c] hover:bg-blue-700 text-white rounded-lg text-xs font-semibold inline-block">
               Pay ${apt.copay}
             </a>
           ` : `
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     saveAppointments(apts);
 
     if (isPayNow) {
-      window.location.href = `/billing.html?service=${encodeURIComponent('Copay: ' + newApt.doctorName)}&amount=50.00`;
+      window.location.href = `./billing.html?service=${encodeURIComponent('Copay: ' + newApt.doctorName)}&amount=50.00`;
     } else {
       alert('Appointment successfully confirmed and added to your schedule!');
       renderAppointments();

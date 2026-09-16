@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     saveCurrentUser(userProfile);
 
-    if (role === 'patient') window.location.href = '/index.html';
-    else if (role === 'doctor') window.location.href = '/medical-records.html';
-    else window.location.href = '/admin.html';
+    if (role === 'patient') window.location.href = './index.html';
+    else if (role === 'doctor') window.location.href = './medical-records.html';
+    else window.location.href = './admin.html';
   });
 });
